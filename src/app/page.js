@@ -11,7 +11,8 @@ const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-
+const [selectedProject, setSelectedProject] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('All');
   const slides = [
     {
       image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&h=600&fit=crop',
@@ -30,44 +31,99 @@ const App = () => {
     }
   ];
 
-  const portfolio = [
+ const portfolio = [
     {
       title: 'Commercial Complex - Sydney',
       category: 'Commercial',
       image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop',
-      description: 'Complete cost estimation for 50-story mixed-use development'
+      description: 'Complete cost estimation for 50-story mixed-use development',
+      fullDescription: 'A comprehensive cost estimation project for a landmark 50-story mixed-use development in the heart of Sydney. Our team provided detailed quantity take-offs, material cost analysis, and labor estimates that helped secure the winning bid.',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      client: 'Sydney Development Corp',
+      duration: '6 months',
+      value: '$250M',
+      services: ['Cost Estimation', 'Bid Preparation', 'Material Analysis'],
+      challenges: 'Complex structural requirements and tight timeline',
+      results: 'Delivered 15% cost savings through optimized material selection'
     },
     {
       title: 'Infrastructure Project - London',
       category: 'Infrastructure',
       image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=600&h=400&fit=crop',
-      description: 'Bridge construction bid preparation and procurement strategy'
+      description: 'Bridge construction bid preparation and procurement strategy',
+      fullDescription: 'Strategic bid preparation for a major bridge construction project crossing the Thames. Included comprehensive procurement strategy and supplier negotiations.',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      client: 'London Infrastructure Ltd',
+      duration: '4 months',
+      value: '$180M',
+      services: ['Bid Preparation', 'Procurement Strategy', 'Supplier Analysis'],
+      challenges: 'Historical site restrictions and environmental regulations',
+      results: 'Won competitive bid with 8% cost advantage'
     },
     {
       title: 'Oil & Gas Facility - Texas',
       category: 'Oil & Gas',
       image: 'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=600&h=400&fit=crop',
-      description: 'Detailed quantity take-offs for refinery expansion'
+      description: 'Detailed quantity take-offs for refinery expansion',
+      fullDescription: 'Extensive quantity take-offs and cost analysis for a major refinery expansion project. Involved coordination with multiple specialty contractors and suppliers.',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      client: 'Texas Energy Solutions',
+      duration: '8 months',
+      value: '$420M',
+      services: ['Quantity Take-offs', 'Cost Analysis', 'Risk Assessment'],
+      challenges: 'Safety compliance and specialized equipment requirements',
+      results: 'Identified $12M in potential cost optimizations'
     },
     {
       title: 'Residential Development - Melbourne',
       category: 'Residential',
       image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop',
-      description: 'Multi-phase housing project cost breakdown and analysis'
+      description: 'Multi-phase housing project cost breakdown and analysis',
+      fullDescription: 'Complete cost breakdown for a 500-unit residential development across 4 construction phases. Included detailed scheduling and phased budget allocation.',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      client: 'Melbourne Housing Group',
+      duration: '5 months',
+      value: '$95M',
+      services: ['Cost Breakdown', 'Scheduling', 'Budget Planning'],
+      challenges: 'Multi-phase coordination and fluctuating material costs',
+      results: 'Enabled 20% faster project approval through detailed planning'
     },
     {
       title: 'Healthcare Facility - New York',
       category: 'Healthcare',
       image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop',
-      description: 'Hospital renovation and expansion cost estimation'
+      description: 'Hospital renovation and expansion cost estimation',
+      fullDescription: 'Detailed cost estimation for hospital renovation while maintaining operational capacity. Specialized medical equipment and systems integration included.',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      client: 'NYC Health Systems',
+      duration: '7 months',
+      value: '$320M',
+      services: ['Cost Estimation', 'Systems Integration', 'Phased Planning'],
+      challenges: 'Operational continuity and specialized medical requirements',
+      results: 'Zero operational disruption with optimized construction sequence'
     },
     {
       title: 'Transportation Hub - Manchester',
       category: 'Infrastructure',
       image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop',
-      description: 'Metro station construction bid-winning proposal'
+      description: 'Metro station construction bid-winning proposal',
+      fullDescription: 'Comprehensive bid preparation for a new metro station including underground construction, mechanical systems, and passenger facilities.',
+      video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      client: 'Manchester Transport Authority',
+      duration: '6 months',
+      value: '$210M',
+      services: ['Bid Preparation', 'Underground Analysis', 'Systems Estimation'],
+      challenges: 'Underground utilities and geological constraints',
+      results: 'Won bid with innovative cost-saving solutions'
     }
   ];
+
+  const categories = ['All', 'Commercial', 'Infrastructure', 'Oil & Gas', 'Residential', 'Healthcare'];
+
+  const filteredProjects = activeFilter === 'All' 
+    ? portfolio 
+    : portfolio.filter(project => project.category === activeFilter);
+
 
   const features = [
     {
@@ -417,14 +473,40 @@ const App = () => {
         </div>
       </section>
 
-      {/* Portfolio */}
+ {/* Portfolio */}
       <section id="portfolio" className="py-20 bg-gradient-to-br from-blue-50 to-white">
         <div className="container mx-auto px-4">
           <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Our Portfolio</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto mb-16 rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto mb-8 rounded-full"></div>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Explore our diverse range of successful projects across multiple industries and continents
+          </p>
+
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveFilter(category)}
+                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  activeFilter === category
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg transform scale-105'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 shadow-md'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Portfolio Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolio.map((project, index) => (
-              <div key={index} className="relative group">
+            {filteredProjects.map((project, index) => (
+              <div 
+                key={index} 
+                className="relative group cursor-pointer"
+                onClick={() => setSelectedProject(project)}
+              >
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg opacity-0 group-hover:opacity-100 transition duration-500 blur"></div>
                 <div className="relative bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-500">
                   <div className="relative overflow-hidden">
@@ -433,12 +515,21 @@ const App = () => {
                       alt={project.title}
                       className="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end justify-center pb-4">
+                      <span className="text-white font-semibold">Click to view details</span>
+                    </div>
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold text-blue-600">
+                      {project.value}
+                    </div>
                   </div>
                   <div className="p-6">
                     <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{project.category}</span>
                     <h3 className="text-xl font-bold mt-2 mb-3 text-gray-800">{project.title}</h3>
-                    <p className="text-gray-600">{project.description}</p>
+                    <p className="text-gray-600 text-sm mb-4">{project.description}</p>
+                    <div className="flex items-center justify-between text-sm text-gray-500">
+                      <span>📍 {project.client}</span>
+                      <span>⏱️ {project.duration}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -446,6 +537,116 @@ const App = () => {
           </div>
         </div>
       </section>
+
+      {/* Project Detail Modal/Popup */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedProject(null)}>
+          <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="relative h-80">
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                <div className="p-8 text-white w-full">
+                  <span className="bg-blue-600 px-3 py-1 rounded-full text-sm font-semibold">{selectedProject.category}</span>
+                  <h2 className="text-4xl font-bold mt-4">{selectedProject.title}</h2>
+                  <p className="text-xl mt-2">{selectedProject.client}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-full p-2 transition"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-8">
+              {/* Project Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl text-center">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">{selectedProject.value}</div>
+                  <div className="text-gray-600 font-semibold">Project Value</div>
+                </div>
+                <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl text-center">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">{selectedProject.duration}</div>
+                  <div className="text-gray-600 font-semibold">Duration</div>
+                </div>
+                <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl text-center">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">{selectedProject.services.length}</div>
+                  <div className="text-gray-600 font-semibold">Services Provided</div>
+                </div>
+              </div>
+
+              {/* Project Description */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">Project Overview</h3>
+                <p className="text-gray-600 leading-relaxed text-lg">{selectedProject.fullDescription}</p>
+              </div>
+
+              {/* Services Provided */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">Services Provided</h3>
+                <div className="flex flex-wrap gap-3">
+                  {selectedProject.services.map((service, idx) => (
+                    <span key={idx} className="bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 px-4 py-2 rounded-full font-semibold">
+                      {service}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Video Section */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">Project Walkthrough</h3>
+                <div className="relative rounded-xl overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={selectedProject.video}
+                    title={selectedProject.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+
+              {/* Challenges & Results */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-xl">
+                  <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">⚠️</span> Challenges
+                  </h3>
+                  <p className="text-gray-600">{selectedProject.challenges}</p>
+                </div>
+                <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-xl">
+                  <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">✅</span> Results
+                  </h3>
+                  <p className="text-gray-600">{selectedProject.results}</p>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <div className="mt-8 text-center">
+                <button 
+                  onClick={() => {
+                    setSelectedProject(null);
+                    scrollToSection('contact');
+                  }}
+                  className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Start Your Project Today
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Contact - Enhanced */}
       <section id="contact" className="py-20 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white relative overflow-hidden">
