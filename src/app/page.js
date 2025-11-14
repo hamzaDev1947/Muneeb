@@ -259,6 +259,13 @@ const [selectedProject, setSelectedProject] = useState(null);
             border-radius: 8px;
             transition: all 0.3s ease;
           }
+              /* 🔥 Hide navigation buttons on mobile */
+  @media (max-width: 768px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none !important;
+    }
+  }
           .swiper-button-next::after,
           .swiper-button-prev::after {
             font-size: 20px;
