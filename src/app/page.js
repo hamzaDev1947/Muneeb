@@ -185,7 +185,7 @@ const [selectedProject, setSelectedProject] = useState(null);
               <button
                 key={item}
                 onClick={() => scrollToSection(item)}
-                className={`${isScrolled ? 'text-gray-700' : 'text-white'} hover:text-blue-600 transition-all duration-300 capitalize font-medium relative group`}
+                className={`${isScrolled ? 'text-gray-700' : 'text-white'} hover:text-blue-600 transition-all duration-300 capitalize font-medium relative group cursor-pointer`}
               >
                 {item.replace('-', ' ')}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
@@ -210,7 +210,7 @@ const [selectedProject, setSelectedProject] = useState(null);
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className="text-gray-700 hover:text-blue-600 transition-all duration-300 capitalize text-left font-medium"
+                  className="text-gray-700 hover:text-blue-600 transition-all duration-300 capitalize text-left cursor-pointer font-medium"
                 >
                   {item.replace('-', ' ')}
                 </button>
