@@ -175,10 +175,39 @@ const [selectedProject, setSelectedProject] = useState(null);
       {/* Header */}
       <header className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-            Axiom Estimators
+   
+      <div className="relative">
+        {/* Animated background glow */}
+        <div className="absolute inset-0 rounded-lg blur-xl opacity-50 animate-pulse"></div>
+        
+        {/* Logo container */}
+        <div className="relative">
+          <div className="text-3xl md:text-4xl font-bold tracking-tight">
+            <span className="inline-block bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+              Axiom
+            </span>
+            <span className="inline-block ml-3 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-delayed">
+              Estimators
+            </span>
           </div>
           
+          {/* Construction subtitle */}
+          <div className="text-xl md:text-2xl font-semibold tracking-wider mt-1 opacity-0 animate-fade-in">
+            <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+              CONSTRUCTION
+            </span>
+          </div>
+          
+          {/* Underline animation */}
+          {/* <div className="h-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 rounded-full mt-2 animate-expand"></div> */}
+        </div>
+        
+        {/* Floating particles */}
+        <div className="absolute -top-1 -left-4 w-3 h-3 bg-blue-400 rounded-full animate-float"></div>
+        {/* <div className="absolute -top-1 -right-6 w-2 h-2 bg-cyan-400 rounded-full animate-float-delayed"></div> */}
+        <div className="absolute -bottom-4 left-1/4 w-2 h-2 bg-blue-300 rounded-full animate-float"></div>
+      </div>
+      
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
             {['about', 'how-we-work', 'leadership', 'governance', 'history', 'portfolio', 'contact'].map((item) => (
@@ -218,6 +247,76 @@ const [selectedProject, setSelectedProject] = useState(null);
             </div>
           </div>
         )}
+         <style jsx>{`
+        @keyframes gradient {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        @keyframes expand {
+          0% {
+            width: 0%;
+            opacity: 0;
+          }
+          100% {
+            width: 100%;
+            opacity: 1;
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+            opacity: 0.6;
+          }
+          50% {
+            transform: translateY(-10px);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          100% {
+            opacity: 0.9;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-gradient {
+          animation: gradient 3s ease infinite;
+        }
+        
+        .animate-gradient-delayed {
+          animation: gradient 3s ease infinite;
+          animation-delay: 0.5s;
+        }
+        
+        .animate-expand {
+          animation: expand 1s ease-out forwards;
+        }
+        
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+          animation: float 3s ease-in-out infinite;
+          animation-delay: 1s;
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 1s ease-out forwards;
+          animation-delay: 0.8s;
+        }
+      `}</style>
       </header>
 
       {/* Hero Carousel with Swiper - Slide Effect */}
